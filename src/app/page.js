@@ -3,13 +3,13 @@
 // Carregando funções de bibliotecas
 import {useState} from "react"; // função do React que lida com estados de campos
 import hash from "object-hash"; // função para criar hashs
-import { connectContract } from "@/services/Web3Service";
+import { addLink } from "@/services/Web3Service";
 
 export default function Home() {
 
   // Inicialização dos estados e suas respectivas funções de alteração de seus valores
   const [url, setUrl] = useState(""); // estado e função relacionadas às URLs
-  const [fee, setFee] = useState("0"); // estado e função relacionadas aos fees
+  const [fee, setFee] = useState(0); // estado e função relacionadas aos fees
   const [message, setMessage] = useState(""); // estado e função relacionadas às mensagens
 
   // Função para setar o valor do estado url
@@ -25,8 +25,15 @@ export default function Home() {
   function btnCreateClick() {
     // Criação de um slice de hash a partir da URL do usuário que será utilizado como ID da link
     const linkId = hash(url).slice(0, 6);
-    connectContract();
-    setMessage("URL: " + url + " Fee: " + fee + " ID do link: " + linkId);
+    setMessage(`Enviando seu link para a blockchain... aguarde...`);
+
+    addLink({ url, linkId, feeInWei: fee}) // Como a transação pode demorar ser processada pela blockchain, eu utilizo then para setar os estados
+      .then(() => {
+        setUrl("");
+        setFee(0);
+        setMessage(`Seu link foi criado com sucesso: http://localhost:3000/${linkId}`);
+      })
+      .catch(err => setMessage(err.message));
   }
 
   return (
