@@ -1,95 +1,88 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"; // Indica que será usado códigoa JavaScript que será rodado no browser do usuário
+
+// Carregando funções de bibliotecas
+import {useState} from "react"; // função do React que lida com estados de campos
+import hash from "object-hash"; // função para criar hashs
+import { connectContract } from "@/services/Web3Service";
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  // Inicialização dos estados e suas respectivas funções de alteração de seus valores
+  const [url, setUrl] = useState(""); // estado e função relacionadas às URLs
+  const [fee, setFee] = useState("0"); // estado e função relacionadas aos fees
+  const [message, setMessage] = useState(""); // estado e função relacionadas às mensagens
+
+  // Função para setar o valor do estado url
+  function onUrlChange(event) {
+    setUrl(event.target.value);
+  }
+
+  // Função para setar o valor do estado fee
+  function onFeeChange(event) {
+    setFee(event.target.value);
+  }
+
+  function btnCreateClick() {
+    // Criação de um slice de hash a partir da URL do usuário que será utilizado como ID da link
+    const linkId = hash(url).slice(0, 6);
+    connectContract();
+    setMessage("URL: " + url + " Fee: " + fee + " ID do link: " + linkId);
+  }
+
+  return (
+    <>
+      <div className="container px-5 py-5">
+        <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
+          <div className="col-6">
+            <img
+              src="https://imgs.search.brave.com/H-g_QJIZ-YHS6-SWOmqLqJh69LH1Pl8IgqXlBuufhiw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5na2V5LmNvbS9w/bmcvZGV0YWlsLzQ4/LTQ4NTM3NV9oeWxp/YW4tc2hpZWxkLWNy/ZXN0LnBuZw"
+              className="d-block mx-lg-auto img-fluid"
+              width="700"
+              height="500"
             />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+          </div>
+          <div className="col-6">
+            <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">Link Shield</h1>
+            <p className="lead">Proteja seus links e lucre <small>rupies</small> com eles.</p>
+            <hr />
+            <div className="instruction-text mt-4">
+              <p className="mb-3">
+                <span className="fw-bold">1.</span> Cole sua URL abaixo
+              </p>
+              <p className="mb-3">
+                <span className="fw-bold">2.</span> Defina a taxa por clique
+              </p>
+              <p>
+                <span className="fw-bold">3.</span> Conecte sua carteira para proteger seu link com a tecnologia blockchain
+              </p>
+            </div>
+            <div className="form-floating mb-3">
+              <input type="text" id="url" className="form-control" value={url || ""} onChange={onUrlChange} />
+              <label htmlFor="url">Link:</label>
+            </div>
+            <div className="row mb-3">
+              <div className="col-6">
+                <div className="form-floating">
+                  <input type="number" id="fee" className="form-control" value={fee || "0"} onChange={onFeeChange} />
+                  <label htmlFor="fee">Taxa por clique (wei):</label>
+                </div>
+              </div>
+              <div className="col-6">
+                <button type="button" className="btn btn-primary w-100 h-100" onClick={btnCreateClick}>
+                  <img src="/metamask.svg" width={32} className="me-2" />
+                  Conectar e Criar Link
+                </button>
+              </div>
+            </div>
+
+            {
+              message
+              ? <div className="alert alert-success p-3 col-12 mt-3" role="alert"> {message} </div>
+              : <></>
+            }
+          </div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }
