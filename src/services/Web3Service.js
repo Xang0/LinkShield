@@ -27,3 +27,16 @@ export async function addLink({ url, linkId, feeInWei }) {
     // Chamo o seu método público addLink e envio a requisição para o contrato usando .send()
     return contract.methods.addLink(url, linkId, feeInWei).send();
 }
+
+export async function getLink(linkId) {
+    const contract = await connectContract();
+    // Pela função getLink se tratar de uma chamada e não uma transação, é utilizado .call() ao ínves de .send()
+    return contract.methods.getLink(linkId).call();
+}
+
+export async function payLink(linkId, valueInWei) {
+    const contract = await connectContract();
+    return contract.methods.payLink(linkId).send({
+        value: valueInWei
+    });
+}
