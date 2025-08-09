@@ -6,7 +6,6 @@
 
 LinkShield is a decentralized application that protects URLs using blockchain technology. Created during **Web3 Week**, this project demonstrates core Web3 concepts including smart contract development, blockchain interactions, and decentralized application architecture.
 
-👉 **Live Demo**: [https://link-shield-dapp.vercel.app/](https://link-shield-dapp.vercel.app/)  
 📺 **Web3 Week**: [Web3 Week - LuizTools](https://www.luiztools.com.br/w3w-3.html#inscricao)
 
 ## Key Features
@@ -122,9 +121,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Linkedin: [Alexandre Filho](www.linkedin.com/in/alexandre-filho-128127260)
+Linkedin: [Alexandre Filho](https://www.linkedin.com/in/alexandre-filho-128127260)
 
-Email: [Gmail](carvalhaesfilho0@gmail.com)
+Email: carvalhaesfilho0@gmail.com
 
 Project Link: [https://github.com/Xang0/LinkShield](https://github.com/Xang0/LinkShield)
 
